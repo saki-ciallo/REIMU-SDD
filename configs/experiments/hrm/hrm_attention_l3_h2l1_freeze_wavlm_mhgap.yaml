@@ -1,0 +1,11 @@
+task_name: hrm_attention_l3_h2l1_freeze_wavlm_mhgap
+frontend_type: wavlm-base
+freeze_ssl_model: true
+architecture_type: hrm
+hrm_h_cycles: 2
+hrm_l_cycles: 1
+hrm_num_gradient_steps: 2
+blocks_json: |
+  {
+    "0": {"attn": "attention", "mlp": "mlp", "num_layers": 3}
+  }

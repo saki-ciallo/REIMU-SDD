@@ -1,0 +1,11 @@
+task_name: looped_raven_l6_n3_freeze_wavlm_mhgap
+frontend_type: wavlm-base
+gpu_id: 1
+freeze_ssl_model: true
+architecture_type: looped
+looped_num_cycles: 3
+looped_num_gradient_cycles: 1
+blocks_json: |
+  {
+    "0": {"attn": "raven", "mlp": "mlp", "num_layers": 6}
+  }

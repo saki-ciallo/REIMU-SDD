@@ -1,0 +1,47 @@
+run:
+  task_name: ssl_aasist_freeze_wav2vec2
+model:
+  model_architecture: ssl_aasist
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wav2vec2-base
+    target_sampling_rate: 16000
+    output_size: 768
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices: null
+    local_files_only: false
+  architecture_type: ssl_aasist
+  backbone_config: null
+  pooling_config: null
+  aasist_config:
+    model_type: aasist
+    input_size: 768
+    filts:
+    - 128
+    - - 1
+      - 32
+    - - 32
+      - 32
+    - - 32
+      - 64
+    - - 64
+      - 64
+    gat_dims:
+    - 64
+    - 32
+    pool_ratios:
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
+    temperatures:
+    - 2.0
+    - 2.0
+    - 100.0
+    - 100.0
+    graph_attention_dropout: 0.2
+    graph_pool_dropout: 0.3
+    path_dropout: 0.2
+    output_dropout: 0.5
+  classifier_config:
+    input_size: 160

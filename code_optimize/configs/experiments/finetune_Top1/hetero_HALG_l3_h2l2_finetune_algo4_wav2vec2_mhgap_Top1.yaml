@@ -1,0 +1,29 @@
+run:
+  task_name: hetero_HALG_l3_h2l2_finetune_algo4_wav2vec2_mhgap_Top1
+model:
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wav2vec2-base
+    target_sampling_rate: 16000
+    output_size: 128
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices:
+    - 11
+    local_files_only: false
+  architecture_type: heterogeneous_hrm
+  backbone_config:
+    architecture_type: heterogeneous_hrm
+    blocks: null
+    hrm_h_blocks:
+    - attn: attention
+      mlp: mlp
+      num_layers: 3
+    hrm_l_blocks:
+    - attn: gdn2
+      mlp: mlp
+      num_layers: 3
+    hrm_l_cycles: 2
+augmentation:
+  algorithm: 4
+training:
+  torch_compile: false

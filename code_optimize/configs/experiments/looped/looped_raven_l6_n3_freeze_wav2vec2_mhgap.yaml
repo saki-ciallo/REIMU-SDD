@@ -1,0 +1,20 @@
+run:
+  task_name: looped_raven_l6_n3_freeze_wav2vec2_mhgap
+  gpu_id: 1
+model:
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wav2vec2-base
+    target_sampling_rate: 16000
+    output_size: 128
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices: null
+    local_files_only: false
+  architecture_type: looped
+  backbone_config:
+    architecture_type: looped
+    blocks:
+    - attn: raven
+      mlp: mlp
+      num_layers: 6
+    looped_num_cycles: 3

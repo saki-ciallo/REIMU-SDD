@@ -1,0 +1,8 @@
+task_name: baseline_raven_l6_freeze_hubert_mhgap
+frontend_type: hubert-base-ls960
+architecture_type: baseline
+freeze_ssl_model: true
+blocks_json: |
+  {
+    "0": {"attn": "raven", "mlp": "mlp", "num_layers": 6}
+  }

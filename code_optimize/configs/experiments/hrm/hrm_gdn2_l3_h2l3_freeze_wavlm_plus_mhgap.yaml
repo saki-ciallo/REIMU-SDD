@@ -1,0 +1,18 @@
+run:
+  task_name: hrm_gdn2_l3_h2l3_freeze_wavlm_plus_mhgap
+model:
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wavlm-base-plus
+    target_sampling_rate: 16000
+    output_size: 128
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices: null
+    local_files_only: false
+  architecture_type: hrm
+  backbone_config:
+    architecture_type: hrm
+    blocks:
+    - attn: gdn2
+      mlp: mlp
+      num_layers: 3

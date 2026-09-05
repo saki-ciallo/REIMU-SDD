@@ -1,0 +1,6 @@
+run:
+  task_name: optimize_compile_smoke
+
+training:
+  torch_compile: true
+  torch_compile_mode: default

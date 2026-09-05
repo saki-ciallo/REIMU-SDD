@@ -1,0 +1,16 @@
+run:
+  task_name: baseline_attention_l6_freeze_wav2vec2_mhgap
+model:
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wav2vec2-base
+    target_sampling_rate: 16000
+    output_size: 128
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices: null
+    local_files_only: false
+  backbone_config:
+    blocks:
+    - attn: attention
+      mlp: mlp
+      num_layers: 6

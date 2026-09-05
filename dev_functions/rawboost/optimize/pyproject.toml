@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rawboost-opt"
+version = "0.1.0"
+description = "Modern NumPy, Torch, and Hugging Face data-path experiments for RawBoost"
+requires-python = ">=3.12"
+dependencies = [
+  "datasets>=5.0",
+  "numpy>=2.0",
+  "scipy>=1.14",
+  "torch>=2.9",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+include = ["rawboost_opt*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]

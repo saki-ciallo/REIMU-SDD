@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "add-system"
+version = "1.0.0"
+description = "Modular ADD audio deepfake detection implementation"
+requires-python = ">=3.12"
+dependencies = [
+  "accelerate>=1.10",
+  "datasets>=5.0",
+  "flash-linear-attention>=0.5.2",
+  "numpy>=2.0",
+  "PyYAML>=6.0",
+  "scipy>=1.14",
+  "torch>=2.9",
+  "transformers>=5.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["add_system*", "evaluation*", "utilis*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["utilis/RawBoost.py", "utilis/asv19_metrics.py"]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "UP",
+  "B",
+  "SIM",
+  "RUF",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

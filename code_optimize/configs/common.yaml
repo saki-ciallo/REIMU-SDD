@@ -1,0 +1,151 @@
+run:
+  task_name: baseline
+  # Relative output roots are anchored at code_optimize/ by the optimized runner.
+  output_root: outputs
+  seed: 810
+  gpu_id: 0
+data:
+  dataset_key: asv19
+  # The optimized runner is rooted at code_optimize/, while datasets/ is a
+  # sibling of local-dev-ADD/.
+  dataset_cache_path: ../../datasets/ASVspoof2019_16k_4s_fixed
+  train_split: train
+  validation_split: validation
+  input_column: input_values
+  label_column: labels
+model:
+  model_architecture: backbone_pooling
+  frontend_config:
+    model_type: linear_frontend
+    target_sampling_rate: 16000
+    frame_ms: 25.0
+    output_size: 128
+  architecture_type: baseline
+  backbone_config:
+    model_type: attention_backbone
+    hidden_size: 128
+    architecture_type: baseline
+    blocks:
+    - attn: raven
+      mlp: mlp
+      num_layers: 8
+    hrm_h_blocks: null
+    hrm_l_blocks: null
+    looped_num_cycles: 2
+    looped_num_gradient_cycles: 1
+    hrm_h_cycles: 2
+    hrm_l_cycles: 3
+    hrm_num_gradient_steps: 2
+    mlp_intermediate_size: 256
+    residual_dropout: 0.1
+    moe_aux_loss_coeff: 0.01
+    moe_use_seq_aux_loss: true
+    return_aux_loss: true
+    use_cache: false
+    attention_config:
+      model_type: attention_fla
+      num_heads: 4
+      num_kv_heads: 4
+      qk_norm: true
+      window_size: null
+      rope_theta: 10000.0
+      max_position_embeddings: null
+    raven_config:
+      model_type: raven_fla
+      num_heads: 4
+      num_kv_heads: 4
+      num_slots: null
+      topk: 16
+      feature_map: swish
+      decay_type: Mamba2
+      router_score: sigmoid
+      router_type: lin
+    gdn2_config:
+      model_type: gated_delta2_fla
+      num_heads: 4
+      num_v_heads: 4
+      head_dim: 32
+    mamba3_config:
+      model_type: mamba3_fla
+      head_dim: 64
+      state_size: 128
+      is_mimo: false
+      rescale_prenorm_residual: true
+  pooling_config:
+    model_type: gap_family
+    pooling_type: mhgap
+    input_size: 128
+    output_size: 64
+    num_heads: 4
+    gate_act: silu
+    hidden_ratio: 2.0
+    output_act: none
+    use_output_norm: false
+    dropout: 0.1
+  aasist_config: null
+  classifier_config:
+    model_type: linear_classifier
+    input_size: 64
+    num_labels: 2
+    classifier_type: linear
+    am_margin: 0.3
+    am_scale: 15.0
+    am_eps: 1.0e-06
+loss:
+  loss_type: focal
+  bonafide_weight: 0.8
+  spoof_weight: 0.2
+  focal_gamma: 2.0
+  label_smoothing: 0.0
+augmentation:
+  # Original NumPy/SciPy RawBoost applied by Dataset.with_transform on CPU.
+  algorithm: 0
+  apply_to_validation: true
+  sampling_rate: 16000
+  num_bands: 5
+  min_frequency: 20.0
+  max_frequency: 8000.0
+  min_bandwidth: 100.0
+  max_bandwidth: 1000.0
+  min_coefficients: 10
+  max_coefficients: 100
+  min_gain: 0.0
+  max_gain: 0.0
+  min_nonlinear_bias: 5.0
+  max_nonlinear_bias: 20.0
+  nonlinearity_order: 5
+  impulse_percent: 10.0
+  impulse_gain: 2.0
+  min_snr: 10.0
+  max_snr: 40.0
+training:
+  do_train: true
+  do_eval: true
+  resume_from_checkpoint: null
+  bf16: true
+  torch_compile: false
+  torch_compile_mode: default
+  optimizer: adamw_torch_fused
+  learning_rate: 0.0001
+  weight_decay: 0.1
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.05
+  adam_beta1: 0.9
+  adam_beta2: 0.95
+  num_train_epochs: 20
+  per_device_train_batch_size: 32
+  per_device_eval_batch_size: 32
+  gradient_accumulation_steps: 1
+  dataloader_num_workers: 2
+  remove_unused_columns: true
+  eval_strategy: epoch
+  save_strategy: epoch
+  logging_strategy: epoch
+  logging_steps: 1
+  save_total_limit: 2
+  load_best_model_at_end: true
+  metric_for_best_model: eval_loss
+  greater_is_better: false
+  early_stopping_patience: 7
+  early_stopping_threshold: 0.0
+  report_to: []

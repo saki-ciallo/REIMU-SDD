@@ -1,0 +1,4 @@
+task_name: ssl_aasist_freeze_wav2vec2
+model_architecture: ssl_aasist
+frontend_type: wav2vec2-base
+freeze_ssl_model: true

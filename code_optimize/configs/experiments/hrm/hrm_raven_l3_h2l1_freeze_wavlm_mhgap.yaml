@@ -1,0 +1,19 @@
+run:
+  task_name: hrm_raven_l3_h2l1_freeze_wavlm_mhgap
+model:
+  frontend_config:
+    model_type: ssl_frontend
+    ssl_type: wavlm-base
+    target_sampling_rate: 16000
+    output_size: 128
+    freeze_ssl_model: true
+    ssl_trainable_layer_indices: null
+    local_files_only: false
+  architecture_type: hrm
+  backbone_config:
+    architecture_type: hrm
+    blocks:
+    - attn: raven
+      mlp: mlp
+      num_layers: 3
+    hrm_l_cycles: 1

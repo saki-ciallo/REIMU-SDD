@@ -1,0 +1,11 @@
+task_name: baseline_attention_l6_finetune_algo4_wav2vec2_mhgap
+freeze_ssl_model: true
+ssl_trainable_layer_indices: [10, 11]
+torch_compile: false
+rawboost_algo: 4
+frontend_type: wav2vec2-base
+architecture_type: baseline
+blocks_json: |
+  {
+    "0": {"attn": "attention", "mlp": "mlp", "num_layers": 6}
+  }

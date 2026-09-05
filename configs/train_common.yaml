@@ -1,0 +1,142 @@
+output_root: outputs
+gpu_id: 0 # Physical GPU index from nvidia-smi; override per experiment.
+dataset_key: asv19
+dataset_cache_path: ../datasets/ASVspoof2019_16k_4s_fixed
+
+# RawBoost runs online after the cached waveform has been fixed to four seconds.
+# Set rawboost_algo to 0 to disable or 1-8 to select an original RawBoost recipe.
+rawboost_algo: 0
+rawboost_apply_to_validation: true
+rawboost_num_bands: 5
+rawboost_min_frequency: 20.0
+rawboost_max_frequency: 8000.0
+rawboost_min_bandwidth: 100.0
+rawboost_max_bandwidth: 1000.0
+rawboost_min_coefficients: 10
+rawboost_max_coefficients: 100
+rawboost_min_gain: 0.0
+rawboost_max_gain: 0.0
+rawboost_min_nonlinear_bias: 5.0
+rawboost_max_nonlinear_bias: 20.0
+rawboost_nonlinearity_order: 5
+rawboost_impulse_percent: 10.0
+rawboost_impulse_gain: 2.0
+rawboost_min_snr: 10.0
+rawboost_max_snr: 40.0
+
+model_architecture: backbone_pooling # backbone_pooling / ssl_aasist
+frontend_type: linear # linear / sincnet / wav2vec2-base / hubert-base-ls960 / wavlm-base / wavlm-base-plus
+target_sampling_rate: 16000
+frame_ms: 25.0
+window_ms: 25.0
+stride_ms: 20.0
+num_filters: 80
+cnn_kernels: [5, 3, 2]
+cnn_channels: [128, 192, 256]
+sincnet_final_dropout: 0.1
+freeze_ssl_model: false # false: full fine-tuning; true: freeze all or use selected layers below
+# Used only with freeze_ssl_model: true. Encoder layer indices are zero-based.
+ssl_trainable_layer_indices: null
+
+# AASIST: used only when model_architecture is ssl_aasist
+aasist_input_size: 768
+aasist_filts: [128, [1, 32], [32, 32], [32, 64], [64, 64]] # AASIST
+# aasist_filts: [128, [1, 32], [32, 32], [32, 24], [24, 24]] # AASIST-L
+aasist_gat_dims: [64, 32] # AASIST
+# aasist_gat_dims: [24, 32] # AASIST-L
+aasist_pool_ratios: [0.5, 0.5, 0.5, 0.5]
+aasist_temperatures: [2.0, 2.0, 100.0, 100.0]
+aasist_graph_attention_dropout: 0.2
+aasist_graph_pool_dropout: 0.3
+aasist_path_dropout: 0.2
+aasist_output_dropout: 0.5
+
+hidden_size: 128
+mlp_intermediate_size: 256
+residual_dropout: 0.1
+num_labels: 2
+
+classifier_type: linear # linear / amsoftmax
+am_margin: 0.3
+am_scale: 15.0
+am_eps: 1.0e-6
+
+loss_type: focal # focal / cross_entropy
+# ClassLabel order: 0=bonafide, 1=spoof. Both weighted CE and Focal use these values.
+loss_bonafide_weight: 0.8
+loss_spoof_weight: 0.2
+focal_gamma: 2.0
+ce_label_smoothing: 0.0
+
+attention_num_heads: 4
+attention_num_kv_heads: 4
+attention_qk_norm: true
+attention_window_size: null
+attention_rope_theta: 10000.0
+attention_max_position_embeddings: null
+
+raven_num_heads: 4
+raven_num_kv_heads: 4
+raven_num_slots: null
+raven_topk: 16
+raven_feature_map: swish
+raven_decay_type: Mamba2
+raven_router_score: sigmoid
+raven_router_type: lin
+
+gdn2_num_heads: 4
+gdn2_num_v_heads: 4
+gdn2_head_dim: 32
+
+mamba3_head_dim: 64
+mamba3_state_size: 128
+mamba3_is_mimo: false
+mamba3_rescale_prenorm_residual: true
+
+moe_aux_loss_coeff: 0.01
+moe_use_seq_aux_loss: true
+return_aux_loss: true
+pooling_type: mhgap # mhgap / gamp / gapv1 / gapv2
+pooling_output_size: 64
+pooling_num_heads: 4
+pooling_gate_act: silu # silu / sigmoid
+pooling_hidden_ratio: 2.0 # gapv1 / gapv2 使用
+pooling_output_act: none # none / silu
+pooling_use_output_norm: false
+pooling_dropout: 0.1
+
+train_split_name: train
+eval_split_name: validation
+input_values_column_name: input_values
+label_column_name: labels
+
+seed: 810
+do_train: true
+do_eval: true
+optim: adamw_torch_fused
+learning_rate: 1.0e-4
+weight_decay: 0.1
+lr_scheduler_type: cosine
+warmup_steps: 0.05
+adam_beta1: 0.9
+adam_beta2: 0.95
+torch_compile: true
+torch_compile_mode: default
+bf16: true
+eval_strategy: epoch
+save_strategy: epoch
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+greater_is_better: false
+save_total_limit: 2
+num_train_epochs: 20
+per_device_train_batch_size: 32
+per_device_eval_batch_size: 32
+dataloader_num_workers: 2
+remove_unused_columns: true
+logging_strategy: epoch
+logging_steps: 1
+report_to: []
+
+early_stopping_patience: 7
+early_stopping_threshold: 0.0

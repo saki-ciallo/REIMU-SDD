@@ -1,0 +1,13 @@
+task_name: looped_gdn2_l6_n2_finetune_algo0_wav2vec2_mhgap_Top1
+freeze_ssl_model: true
+ssl_trainable_layer_indices: [11]
+torch_compile: false
+rawboost_algo: 0
+frontend_type: wav2vec2-base
+architecture_type: looped
+looped_num_cycles: 2
+looped_num_gradient_cycles: 1
+blocks_json: |
+  {
+    "0": {"attn": "gdn2", "mlp": "mlp", "num_layers": 6}
+  }

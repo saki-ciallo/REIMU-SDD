@@ -1,0 +1,8 @@
+task_name: baseline_raven_l6_freeze_wavlm_mhgap
+frontend_type: wavlm-base
+architecture_type: baseline
+freeze_ssl_model: true
+blocks_json: |
+  {
+    "0": {"attn": "raven", "mlp": "mlp", "num_layers": 6}
+  }

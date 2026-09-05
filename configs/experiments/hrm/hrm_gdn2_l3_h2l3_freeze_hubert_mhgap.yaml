@@ -1,0 +1,11 @@
+task_name: hrm_gdn2_l3_h2l3_freeze_hubert_mhgap
+frontend_type: hubert-base-ls960
+freeze_ssl_model: true
+architecture_type: hrm
+hrm_h_cycles: 2
+hrm_l_cycles: 3
+hrm_num_gradient_steps: 2
+blocks_json: |
+  {
+    "0": {"attn": "gdn2", "mlp": "mlp", "num_layers": 3}
+  }

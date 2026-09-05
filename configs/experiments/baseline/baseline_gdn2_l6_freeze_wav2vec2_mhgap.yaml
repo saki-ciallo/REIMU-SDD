@@ -1,0 +1,8 @@
+task_name: baseline_gdn2_l6_freeze_wav2vec2_mhgap
+frontend_type: wav2vec2-base
+architecture_type: baseline
+freeze_ssl_model: true
+blocks_json: |
+  {
+    "0": {"attn": "gdn2", "mlp": "mlp", "num_layers": 6}
+  }

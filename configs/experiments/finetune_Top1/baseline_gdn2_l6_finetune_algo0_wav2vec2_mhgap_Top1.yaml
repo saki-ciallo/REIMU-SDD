@@ -1,0 +1,11 @@
+task_name: baseline_gdn2_l6_finetune_algo0_wav2vec2_mhgap_Top1
+freeze_ssl_model: true
+ssl_trainable_layer_indices: [11]
+torch_compile: false
+rawboost_algo: 0
+frontend_type: wav2vec2-base
+architecture_type: baseline
+blocks_json: |
+  {
+    "0": {"attn": "gdn2", "mlp": "mlp", "num_layers": 6}
+  }
