@@ -10,7 +10,7 @@ Also, this repository provides two implementations of the same method: a paper-a
 
 | Implementation | Location | Best for |
 | --- | --- | --- |
-| Paper-aligned (Legacy) | Root, `src/`, `utilis/` | Reproducing paper results and loading original checkpoints |
+| Paper-aligned (Legacy) | `./` | Reproducing paper results and loading original checkpoints |
 | Modular (Improved) | `code_optimize/` | Custom architectures, ablations, and adapting to new tasks |
 
 
@@ -21,6 +21,10 @@ Also, this repository provides two implementations of the same method: a paper-a
 
 
 ## Getting Started
+
+This repository requires a specific folder to be placed in the `official_scores/` before running:
+* `official_scores/2021`: The official ASVspoof 2021 baseline [repository](https://github.com/asvspoof-challenge/2021).
+
 
 ### Environment
 
@@ -59,9 +63,12 @@ The modular pipeline can train, test, and score one or more experiment configs:
 
 For researchers and developers extending this project, `code_optimize/` is the recommended starting point.
 
-## Reproducibility and adaptation
+## Reproducibility and Adaptation
 
 Use the legacy version for exact paper reproduction and checkpoint compatibility, or the modular version for architectural changes, ablations, and custom downstream tasks (core model logic remains identical).
+
+## Acknowledgment
+We used ChatGPT-5.6-sol for coding assistance and writing polishing.
 
 ## Citation
 If you find this repository or our work helpful, please consider giving this repo a star  and citing our paper:
