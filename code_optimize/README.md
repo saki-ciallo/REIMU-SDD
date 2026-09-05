@@ -20,12 +20,6 @@ path:
 waveform -> SSL frontend -> AASIST -> classifier
 ```
 
-Backbone schedules cover the ordinary baseline stack as well as looped, HRM,
-and heterogeneous HRM variants. Directory-level responsibilities are
-documented in [add_system/README.md](add_system/README.md) and its component
-README files; architecture and state-flow details are in
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
 ## Extending the Model
 
 The optimized implementation separates configuration, computation, assembly,
@@ -54,7 +48,6 @@ configs/      common defaults and experiment YAML overlays
 evaluation/   ASVspoof dataset test and score implementations
 utilis/       bundled model-independent helpers, including CPU RawBoost
 tests/        automated unit, schema, CUDA, and smoke tests
-docs/         architecture and maintenance documentation
 ```
 
 The top-level shell scripts are the normal user-facing entry points. With the
@@ -68,13 +61,8 @@ to the legacy implementation and is not used by this package.
 The intended environment is Python 3.12 with CUDA, BF16 support, PyTorch,
 Transformers, Datasets, and FLA installed. The optimized implementation
 expects a CUDA device for its model path and does not silently replace FLA
-modules with a CPU fallback. No package installation or `build/` directory is
-needed for the direct workflow.
+modules with a CPU fallback.
 
-```bash
-source /root/miniconda3/etc/profile.d/conda.sh
-conda activate py312
-```
 
 ## Train
 
@@ -152,21 +140,3 @@ PYTHONPATH=code_optimize python code_optimize/migrate_configs_to_new.py
 The command preserves optimized-only files by default. Add `--prune` when the
 destination must exactly mirror the legacy experiment tree.
 
-## Verification
-
-Run the package tests from the repository root:
-
-```bash
-PYTHONPATH=code_optimize python -m unittest discover -s code_optimize/tests -v
-```
-
-For formatting and lint checks, use Ruff without creating a cache:
-
-```bash
-ruff check --no-cache code_optimize
-ruff format --check --no-cache code_optimize
-```
-
-See [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for known runtime and
-upstream-library issues, and [docs/COMPLETION_AUDIT.md](docs/COMPLETION_AUDIT.md)
-for the implementation audit.
