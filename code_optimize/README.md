@@ -48,6 +48,8 @@ configs/      common defaults and experiment YAML overlays
 evaluation/   ASVspoof dataset test and score implementations
 utilis/       bundled model-independent helpers, including CPU RawBoost
 tests/        automated unit, schema, CUDA, and smoke tests
+docs/         architecture and maintenance documentation
+
 ```
 
 The top-level shell scripts are the normal user-facing entry points. With the
